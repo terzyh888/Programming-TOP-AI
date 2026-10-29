@@ -5,14 +5,17 @@ DATE_FORMAT = '%Y-%m-%d'
 
 
 def add(items, title, amount, expiration_date=None):
-    """Добавляет партию продукта в словарь items."""
+    # Добавляет партию продукта в словарь items.
     if title not in items:
         items[title] = []
 
     if expiration_date is not None:
-        expiration_date = datetime.datetime.strptime(
-            expiration_date, DATE_FORMAT
-        ).date()
+        # Если переданная дата — строка, парсим её в объект date.
+        # Если это уже datetime.date, оставляем без изменений.
+        if isinstance(expiration_date, str):
+            expiration_date = datetime.datetime.strptime(
+                expiration_date, DATE_FORMAT
+            ).date()
 
     items[title].append({
         'amount': amount,
